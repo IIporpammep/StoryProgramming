@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4000604060427822600}
   - component: {fileID: 2307550203658957152}
   m_Layer: 0
-  m_Name: OpaqueDissolveSimpleSphere
+  m_Name: DissolveOpaqueWithBorderSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 051f01cc4bfb56646a22c130c11cd7a8, type: 2}
+  - {fileID: 2100000, guid: a1287ed6bcead0643a4a1190411ea5d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
