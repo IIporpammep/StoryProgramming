@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4000604060427822606}
   - component: {fileID: 4000604060427822601}
   - component: {fileID: 4000604060427822600}
+  - component: {fileID: 2307550203658957152}
   m_Layer: 0
   m_Name: OpaqueDissolveSimpleSphere
   m_TagString: Untagged
@@ -65,6 +66,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -77,3 +79,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2307550203658957152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000604060427822602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf21967886372b49a37f7baee9e38f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uniformName: _DissolveValue
+  _fromTo: {x: 0, y: 1.01}
+  _duration: 2
+  _pingPongMode: 1

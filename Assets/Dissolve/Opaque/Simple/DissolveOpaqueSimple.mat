@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OpaqueDissolveSimple
+  m_Name: DissolveOpaqueSimple
   m_Shader: {fileID: -6465566751694194690, guid: 6788e77ae2c6bfa469412aefa4dd7610,
     type: 3}
   m_ShaderKeywords: 
@@ -72,6 +72,7 @@ Material:
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DissolveValue: 0
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
