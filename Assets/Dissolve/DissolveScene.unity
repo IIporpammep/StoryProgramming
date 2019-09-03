@@ -135,12 +135,12 @@ PrefabInstance:
     - target: {fileID: 4000604060427822602, guid: bea1c72656e341f45bbb7ad87ddfda3b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: bea1c72656e341f45bbb7ad87ddfda3b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.6
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: bea1c72656e341f45bbb7ad87ddfda3b,
         type: 3}
@@ -209,12 +209,12 @@ PrefabInstance:
     - target: {fileID: 4000604060427822602, guid: bb468f9837ed8d84ca2ace3b01ec6a68,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: bb468f9837ed8d84ca2ace3b01ec6a68,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: bb468f9837ed8d84ca2ace3b01ec6a68,
         type: 3}
@@ -344,8 +344,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856285188}
-  m_LocalRotation: {x: -0.33140683, y: 0.009054024, z: -0.0031812426, w: -0.9434392}
-  m_LocalPosition: {x: 0, y: 1.3781071, z: -1.8290027}
+  m_LocalRotation: {x: -0.38186178, y: 0.007496735, z: -0.0030961456, w: -0.92418385}
+  m_LocalPosition: {x: 0.430754, y: 5.0222254, z: -4.807948}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -366,12 +366,12 @@ PrefabInstance:
     - target: {fileID: 4000604060427822602, guid: c797bff6eb0b9a0479d20c29912f268e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: c797bff6eb0b9a0479d20c29912f268e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.8
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: c797bff6eb0b9a0479d20c29912f268e,
         type: 3}
@@ -437,10 +437,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnimatedSkinSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 4000604060427822602, guid: 3cf7504c59e1b2547839824dc71547ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: 3cf7504c59e1b2547839824dc71547ed,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4.4
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: 3cf7504c59e1b2547839824dc71547ed,
         type: 3}
@@ -673,7 +678,7 @@ Transform:
   m_GameObject: {fileID: 1528561976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -693,12 +698,12 @@ PrefabInstance:
     - target: {fileID: 4000604060427822602, guid: c03d4db7dd7a57b428338e073589130b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: c03d4db7dd7a57b428338e073589130b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.2
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: c03d4db7dd7a57b428338e073589130b,
         type: 3}
@@ -764,10 +769,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: DissolveTransparentSimpleSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 4000604060427822602, guid: f687b14eec8c16641be08e5ee6f75559,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: f687b14eec8c16641be08e5ee6f75559,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: f687b14eec8c16641be08e5ee6f75559,
         type: 3}
@@ -833,10 +843,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: OpaqueDissolveSimpleSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 4000604060427822602, guid: f7aaa7cae02663243b05b3a1430479ae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: f7aaa7cae02663243b05b3a1430479ae,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: f7aaa7cae02663243b05b3a1430479ae,
         type: 3}
@@ -905,12 +920,12 @@ PrefabInstance:
     - target: {fileID: 4000604060427822602, guid: 71d5afb2a6f77724bb9d565e71bf2cd1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: 71d5afb2a6f77724bb9d565e71bf2cd1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4000604060427822606, guid: 71d5afb2a6f77724bb9d565e71bf2cd1,
         type: 3}
