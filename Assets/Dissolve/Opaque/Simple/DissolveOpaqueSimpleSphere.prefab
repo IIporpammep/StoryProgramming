@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4000604060427822600}
   - component: {fileID: 2307550203658957152}
   m_Layer: 0
-  m_Name: OpaqueDissolveSimpleSphere
+  m_Name: DissolveOpaqueSimpleSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4000604060427822606
 Transform:
   m_ObjectHideFlags: 0
