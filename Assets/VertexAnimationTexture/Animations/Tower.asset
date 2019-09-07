@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c851497ea23e964caf163000b16e61a, type: 3}
   m_Name: Tower
   m_EditorClassIdentifier: 
-  BoundsCenter: {x: 6.754455, y: 2.7834704, z: 7.9908204}
-  BoundsExtents: {x: 7.6195893, y: 3.4655805, z: 8.660758}
+  BoundsCenter: {x: 6.754455, y: 2.7599018, z: 7.9908204}
+  BoundsExtents: {x: 7.6195893, y: 3.4420118, z: 8.660758}
   StartBoundsCenter: {x: 0.51100385, y: 2.4928854, z: 0.50458413}
   StartBoundsExtents: {x: 1.0115092, y: 2.999526, z: 1.0065757}
   Frames: 180

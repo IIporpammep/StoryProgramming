@@ -56,9 +56,14 @@ namespace StoryProgramming
 
             vatAnimation.RotationsTex = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_RotationTex.png", typeof(Texture2D));
             SetTextureSettings(vatAnimation.RotationsTex);
-            AssetDatabase.CreateAsset(vatAnimation, "Assets/" + SAVE_FOLDER + targetName + ".asset");
+            string animationPath = "Assets/" + SAVE_FOLDER + targetName + ".asset";
+            AssetDatabase.CreateAsset(vatAnimation, animationPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+
+            VATMeshGenerator vatMeshGenerator = new VATMeshGenerator();
+            vatMeshGenerator.SetMeshBounds(targetName, bounds);
+            vatMeshGenerator.SetAnimationToPrefab(targetName, (VATAnimation)AssetDatabase.LoadAssetAtPath(animationPath, typeof(VATAnimation)));
 
             Debug.LogError("Generation Finished");
         }

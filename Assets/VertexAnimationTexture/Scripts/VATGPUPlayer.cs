@@ -37,6 +37,11 @@ namespace StoryProgramming
             return _vatAnimation != null;
         }
 
+        public void SetAnimation(VATAnimation vatAnimation)
+        {
+            _vatAnimation = vatAnimation;
+        }
+
         public void PlayRecording()
         {
             _recordingPlayed = true;

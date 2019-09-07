@@ -15,6 +15,26 @@ namespace StoryProgramming
         const string SAVE_FOLDER_PREFABS = "/VertexAnimationTexture/Animations/Prefabs/";
         const string SAVE_FOLDER_MATERIALS = "/VertexAnimationTexture/Animations/Materials/";
 
+        public void SetMeshBounds(string targetName, Bounds bounds)
+        {
+            Mesh mesh = (Mesh)AssetDatabase.LoadAssetAtPath(GetMeshPath(targetName), typeof(Mesh));
+            mesh.bounds = bounds;
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        public void SetAnimationToPrefab(string targetName, VATAnimation vatAnimation)
+        {
+            GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath(GetPrefabPath(targetName), typeof(GameObject));
+            GameObject instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+            instance.GetComponent<VATGPUPlayer>().SetAnimation(vatAnimation);
+
+            PrefabUtility.ApplyPrefabInstance(instance, InteractionMode.AutomatedAction);
+            GameObject.Destroy(instance);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
         /// <summary>
         /// Must be called before recording 
         /// </summary>
@@ -56,7 +76,7 @@ namespace StoryProgramming
         {
             Mesh combinedMesh = new Mesh();
             combinedMesh.CombineMeshes(combine);
-            string path = "Assets/" + SAVE_FOLDER_MESHES + targetName + "_Mesh" + ".asset";
+            string path = GetMeshPath(targetName);
             AssetDatabase.CreateAsset(combinedMesh, path);
 
             GameObject combinedGO = new GameObject();
@@ -72,8 +92,20 @@ namespace StoryProgramming
             combinedGO.AddComponent<VATGPUPlayer>();
 
 
-            PrefabUtility.SaveAsPrefabAsset(combinedGO, "Assets" + SAVE_FOLDER_PREFABS + targetName + ".prefab");
+            PrefabUtility.SaveAsPrefabAsset(combinedGO, GetPrefabPath(targetName));
             GameObject.Destroy(combinedGO);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        private static string GetPrefabPath(string targetName)
+        {
+            return "Assets" + SAVE_FOLDER_PREFABS + targetName + ".prefab";
+        }
+
+        string GetMeshPath(string targetName)
+        {
+            return "Assets/" + SAVE_FOLDER_MESHES + targetName + "_Mesh" + ".asset";
         }
 
         void EnsureFolders()
