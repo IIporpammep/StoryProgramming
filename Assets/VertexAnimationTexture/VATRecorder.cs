@@ -45,14 +45,16 @@ namespace StoryProgramming
             }
 
             _frameTime = _recordingTime / (float)_frames;
-            _timer = _frameTime;
+            _timer = 0;
             _recordingStarted = true;
-            _currrentFrame = 0;
+            _currrentFrame = 1;
 
             VATMeshGenerator vatMeshGenerator = new VATMeshGenerator();
             UpdateBounds();
             _startBounds = _bounds;
             vatMeshGenerator.GenerateMesh(_target.name, _targetRenderers, _startBounds);
+
+            RecordFrame();
 
             if (_callWhenStartRecording != null)
             {
@@ -95,14 +97,19 @@ namespace StoryProgramming
                 _timer -= _frameTime;
                 _currrentFrame++;
 
-                UpdateBounds();
-                RecordPositions();
-                RecordRotations();
+                RecordFrame();
             }
             if (_currrentFrame == _frames)
             {
                 RecordingFinished();
             }
+        }
+
+        void RecordFrame()
+        {
+            UpdateBounds();
+            RecordPositions();
+            RecordRotations();
         }
 
         void RecordingFinished()
