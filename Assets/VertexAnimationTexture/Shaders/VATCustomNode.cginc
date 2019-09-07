@@ -41,11 +41,11 @@ void CalculatePositionFromVAT_float(float3 inputObjectPosition, float4 vertexCol
     float4 vatRotation = tex2Dlod(_RotationsTex, float4(idOfMeshPart, currentFrame, 0, 0));
     float4 decodedRotation = DecodeQuaternion(vatRotation);
 
-    float3 rotated = RotateVectorUsingQuaternion(decodedRotation, offset);
+    float3 rotated = RotateVectorUsingQuaternionFast(decodedRotation, offset);
        
     float3 vatPosition = tex2Dlod(_PositionsTex, float4(idOfMeshPart, currentFrame, 0, 0)).xyz;
     objectPosition = rotated + DecodePositionInBounds(vatPosition, _BoundsCenter, _BoundsExtents);
 
-    rotatedNormal = RotateVectorUsingQuaternion(decodedRotation, inputObjectNormal);
+    rotatedNormal = RotateVectorUsingQuaternionFast(decodedRotation, inputObjectNormal);
 }
 #endif
