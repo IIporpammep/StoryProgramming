@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace StoryProgramming
 {
+    /// <summary>
+    /// Plays VATAnimation setting to Renderer Material Property block
+    /// </summary>
     public class VATGPUPlayer : MonoBehaviour
     {
         [SerializeField]

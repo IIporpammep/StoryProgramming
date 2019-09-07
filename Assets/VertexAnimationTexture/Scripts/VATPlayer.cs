@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace StoryProgramming
 {
+    /// <summary>
+    /// Used to test VAT encoding/decoding using CPU 
+    /// </summary>
     public class VATPlayer : MonoBehaviour
     {
         [SerializeField]

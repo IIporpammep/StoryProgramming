@@ -41,7 +41,7 @@ namespace StoryProgramming
         /// <param name="targetRenderers"></param>
         public void GenerateMesh(string targetName, Renderer[] targetRenderers, Bounds startBounds)
         {
-            if (targetRenderers.Length > 256)
+            if (targetRenderers.Length > 256)// Because of using 1 channel of Color that 8bit(0.255)
             {
                 Debug.LogError("Too much renderers, rendererID indexing only for 256.");
             }
@@ -55,12 +55,13 @@ namespace StoryProgramming
                 List<Color> colors = new List<Color>();
                 for (int q = 0; q < mesh.vertexCount; q++)
                 {
+                    //Store pivots in colors of mesh to be able to rotate mesh. Maybe it's better to store them in UV3 for example, it seems that precision of Color is worse than UV.
                     Vector3 positionInBounds = targetRenderers[i].transform.position - startBounds.center;
                     positionInBounds = new Vector3(Mathf.InverseLerp(-startBounds.extents.x, startBounds.extents.x, positionInBounds.x),
                                                    Mathf.InverseLerp(-startBounds.extents.y, startBounds.extents.y, positionInBounds.y),
                                                    Mathf.InverseLerp(-startBounds.extents.z, startBounds.extents.z, positionInBounds.z));
 
-                    float rendererID = i / (float)(targetRenderers.Length - 1);
+                    float rendererID = i / (float)(targetRenderers.Length - 1); //to indexate columns in VAT
                     Color encodedPosition = new Color(positionInBounds.x, positionInBounds.y, positionInBounds.z, rendererID);
                     colors.Add(encodedPosition);
                 }

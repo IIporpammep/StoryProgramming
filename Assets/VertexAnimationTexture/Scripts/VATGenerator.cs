@@ -8,6 +8,9 @@ using UnityEditor;
 
 namespace StoryProgramming
 {
+    /// <summary>
+    /// Generates VAT textures and VATAnimation Scriptable object
+    /// </summary>
     public class VATGenerator
     {
         const string SAVE_FOLDER = "/VertexAnimationTexture/Animations/";
@@ -33,7 +36,6 @@ namespace StoryProgramming
             WriteRotationsTexture(targetName, renderersCount, frames, renderersRotations);
 
             VATAnimation vatAnimation = ScriptableObject.CreateInstance<VATAnimation>();
-            vatAnimation.RenderersCount = renderersCount;
             vatAnimation.Frames = frames;
             vatAnimation.Duration = duration;
             vatAnimation.BoundsCenter = bounds.center;

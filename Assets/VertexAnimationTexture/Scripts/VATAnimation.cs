@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace StoryProgramming
 {
+    /// <summary>
+    /// Holdes all data that used by VAT shader 
+    /// </summary>
     public class VATAnimation : ScriptableObject
     {
         public Vector3 BoundsCenter;
         public Vector3 BoundsExtents;
+        //Used to decode pivots
         public Vector3 StartBoundsCenter;
         public Vector3 StartBoundsExtents;
         public float Frames;
-        public int RenderersCount;
         public float Duration;
         public bool HighPrecisionPositionMode;
         public Texture2D PositionsTex;

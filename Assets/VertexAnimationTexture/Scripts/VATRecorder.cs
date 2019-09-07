@@ -6,6 +6,10 @@ using UnityEngine.Events;
 
 namespace StoryProgramming
 {
+    /// <summary>
+    /// Records rotation and positions creating _frames in _recordingTime sec.
+    /// Add actions that change position of target renderers to _callWhenStartRecording 
+    /// </summary>
     public class VATRecorder : MonoBehaviour
     {
         [SerializeField]
