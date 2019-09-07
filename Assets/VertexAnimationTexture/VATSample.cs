@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace StoryProgramming
 {
@@ -10,7 +11,8 @@ namespace StoryProgramming
         float _radius = 2;
         [SerializeField]
         float _force = 2;
-
+        [SerializeField]
+        UnityEvent _callWhenApplyForce;
 
         public void ApplyForce()
         {
@@ -23,7 +25,20 @@ namespace StoryProgramming
                     rigidbody.AddExplosionForce(_force, transform.position, _radius);
                 }
             }
+            if (_callWhenApplyForce != null)
+            {
+                _callWhenApplyForce.Invoke();
+            }
         }
+        public void ApplyForceAndCallAction()
+        {
+            ApplyForce();
+            if (_callWhenApplyForce != null)
+            {
+                _callWhenApplyForce.Invoke();
+            }
+        }
+
 
 
         void OnDrawGizmos()

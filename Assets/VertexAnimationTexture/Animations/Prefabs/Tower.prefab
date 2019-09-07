@@ -93,3 +93,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vatAnimation: {fileID: 0}
   _state: 0
+  _animationSpeed: 1
