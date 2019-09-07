@@ -26,6 +26,21 @@ namespace StoryProgramming
 
         int _stateId;
 
+        bool _recordingPlayed;
+        float _startTime;
+
+
+        public bool IsThereAnimation()
+        {
+            return _vatAnimation != null;
+        }
+
+        public void PlayRecording()
+        {
+            _recordingPlayed = true;
+            _startTime = Time.time;
+        }
+
         void Awake()
         {
             _renderer = GetComponent<Renderer>();
@@ -41,9 +56,18 @@ namespace StoryProgramming
             _stateId = Shader.PropertyToID("_State");
         }
 
-
-
         void Update()
+        {
+            if (!IsThereAnimation())
+            {
+                return;
+            }
+
+            UpdateAnimation();
+            SendDataToRenderer();
+        }
+
+        void SendDataToRenderer()
         {
             if (_mpb == null)
             {
@@ -63,7 +87,18 @@ namespace StoryProgramming
             _mpb.SetVector(_startBoundsExtentsId, _vatAnimation.StartBoundsExtents);
 
             _renderer.SetPropertyBlock(_mpb);
+        }
 
+        void UpdateAnimation()
+        {
+            if (_recordingPlayed)
+            {
+                _state = Mathf.InverseLerp(_startTime, _startTime + _vatAnimation.Duration, Time.time);
+                if (Time.time > _startTime + _vatAnimation.Duration)
+                {
+                    _recordingPlayed = false;
+                }
+            }
         }
     }
 }

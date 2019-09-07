@@ -14,7 +14,7 @@ namespace StoryProgramming
         int _currrentFrame;
         float _frameTime;
         Renderer[] _targetRenderers;
-        bool _recordingPlaying;
+        bool _recordingPlayed;
 
         public bool IsThereAnimation()
         {
@@ -32,12 +32,12 @@ namespace StoryProgramming
 
 
             _frameTime = _vatAnimation.Duration / (float)128;
-            _recordingPlaying = true;
+            _recordingPlayed = true;
         }
 
         void Update()
         {
-            if (_vatAnimation == null || _currrentFrame == _vatAnimation.Frames || !_recordingPlaying)
+            if (_vatAnimation == null || _currrentFrame == _vatAnimation.Frames || !_recordingPlayed)
             {
                 return;
             }
