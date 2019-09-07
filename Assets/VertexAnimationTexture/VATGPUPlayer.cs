@@ -17,7 +17,6 @@ namespace StoryProgramming
         Renderer _renderer;
         int _positionTexId;
         int _rotattionTexId;
-        int _framesId;
 
         int _boundsCenterId;
         int _boundsExtentsId;
@@ -46,7 +45,6 @@ namespace StoryProgramming
             _renderer = GetComponent<Renderer>();
             _positionTexId = Shader.PropertyToID("_PositionsTex");
             _rotattionTexId = Shader.PropertyToID("_RotationsTex");
-            _framesId = Shader.PropertyToID("_Frames");
 
             _boundsCenterId = Shader.PropertyToID("_BoundsCenter");
             _boundsExtentsId = Shader.PropertyToID("_BoundsExtents");
@@ -79,7 +77,6 @@ namespace StoryProgramming
             _mpb.SetTexture(_rotattionTexId, _vatAnimation.RotationsTex);
 
             _mpb.SetFloat(_stateId, _state);
-            _mpb.SetFloat(_framesId, _vatAnimation.Frames);
 
             _mpb.SetVector(_boundsCenterId, _vatAnimation.BoundsCenter);
             _mpb.SetVector(_boundsExtentsId, _vatAnimation.BoundsExtents);

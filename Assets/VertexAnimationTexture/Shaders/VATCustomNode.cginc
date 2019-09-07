@@ -3,7 +3,6 @@
 
 sampler2D _PositionsTex;
 sampler2D _RotationsTex;
-float _Frames;
 float _State;
 float3 _BoundsCenter;
 float3 _BoundsExtents;
