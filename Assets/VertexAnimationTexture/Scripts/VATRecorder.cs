@@ -15,8 +15,9 @@ namespace StoryProgramming
         [SerializeField]
         float _recordingTime = 3f;
         [SerializeField]
+        bool _highPrecisionPosition;
+        [SerializeField]
         UnityEvent _callWhenStartRecording;
-
 
         float _timer;
         int _currrentFrame;
@@ -115,11 +116,10 @@ namespace StoryProgramming
         void RecordingFinished()
         {
             Debug.LogError("Recording Finished");
-            VATGenerator vatGenerator = new VATGenerator();
+            VATGenerator vatGenerator = new VATGenerator(_highPrecisionPosition);
             vatGenerator.GenerateVAT(_target.name, _targetRenderers.Length, _recordingTime, _frames, _bounds, _startBounds, _renderersPositions, _renderersRotations);
         }
-
-
+        
         void OnDrawGizmos()
         {
             if (_currrentFrame == _frames)

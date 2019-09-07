@@ -13,10 +13,23 @@ namespace StoryProgramming
         const string SAVE_FOLDER = "/VertexAnimationTexture/Animations/";
         const string SAVE_FOLDER_TEXTURES = "/VertexAnimationTexture/Animations/Textures/";
 
+        bool _highPrecisionPosition;
+        public VATGenerator(bool highPrecisionPosition)
+        {
+            _highPrecisionPosition = highPrecisionPosition;
+        }
+
         public void GenerateVAT(string targetName, int renderersCount, float duration, int frames, Bounds bounds, Bounds startBounds, List<Vector3>[] renderersPositions, List<Quaternion>[] renderersRotations)
         {
             EnsureFolders();
-            WritePositionsTexture(targetName, renderersCount, frames, bounds, renderersPositions);
+            if (!_highPrecisionPosition)
+            {
+                WritePositionsTexture(targetName, renderersCount, frames, bounds, renderersPositions);
+            }
+            else
+            {
+                WriteHighPrecisionPositionsTextures(targetName, renderersCount, frames, bounds, renderersPositions);
+            }
             WriteRotationsTexture(targetName, renderersCount, frames, renderersRotations);
 
             VATAnimation vatAnimation = ScriptableObject.CreateInstance<VATAnimation>();
@@ -27,8 +40,20 @@ namespace StoryProgramming
             vatAnimation.BoundsExtents = bounds.extents;
             vatAnimation.StartBoundsCenter = startBounds.center;
             vatAnimation.StartBoundsExtents = startBounds.extents;
-            vatAnimation.PositionsTex = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_PositionTex.png", typeof(Texture2D));
-            SetTextureSettings(vatAnimation.PositionsTex);
+            vatAnimation.HighPrecisionPositionMode = _highPrecisionPosition;
+            if (!_highPrecisionPosition)
+            {
+                vatAnimation.PositionsTex = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_PositionTex.png", typeof(Texture2D));
+                SetTextureSettings(vatAnimation.PositionsTex);
+            }
+            else
+            {
+                vatAnimation.PositionsTex = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_PositionTex.png", typeof(Texture2D));
+                SetTextureSettings(vatAnimation.PositionsTex);
+                vatAnimation.PositionsTexB = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_PositionTexB.png", typeof(Texture2D));
+                SetTextureSettings(vatAnimation.PositionsTexB);
+            }
+
             vatAnimation.RotationsTex = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_RotationTex.png", typeof(Texture2D));
             SetTextureSettings(vatAnimation.RotationsTex);
             AssetDatabase.CreateAsset(vatAnimation, "Assets/" + SAVE_FOLDER + targetName + ".asset");
@@ -95,7 +120,6 @@ namespace StoryProgramming
 #endif
         }
 
-
         void SetTextureSettings(Texture2D texture)
         {
             if (texture == null)
@@ -121,6 +145,56 @@ namespace StoryProgramming
                 AssetDatabase.ImportAsset(assetPath);
                 AssetDatabase.Refresh();
             }
+        }
+
+        void WriteHighPrecisionPositionsTextures(string targetName, int renderersCount, int frames, Bounds bounds, List<Vector3>[] renderersPositions)
+        {
+            Texture2D positionsTexA = new Texture2D(renderersCount, frames, TextureFormat.RGB24, false, true);
+            Texture2D positionsTexB = new Texture2D(renderersCount, frames, TextureFormat.RGB24, false, true);
+            for (int x = 0; x < renderersCount; x++)
+            {
+                for (int y = 0; y < frames; y++)
+                {
+
+                    Vector3 positionInBounds = renderersPositions[x][y] - bounds.center;
+                    positionInBounds = new Vector3(Mathf.InverseLerp(-bounds.extents.x, bounds.extents.x, positionInBounds.x),
+                                                   Mathf.InverseLerp(-bounds.extents.y, bounds.extents.y, positionInBounds.y),
+                                                   Mathf.InverseLerp(-bounds.extents.z, bounds.extents.z, positionInBounds.z));
+
+                    Vector2 encodedX = EncodeFloatRG(positionInBounds.x);
+                    Vector2 encodedY = EncodeFloatRG(positionInBounds.y);
+                    Vector2 encodedZ = EncodeFloatRG(positionInBounds.z);
+
+                    Color encodedPositionPartA = new Color(encodedX.x, encodedY.x, encodedZ.x, 1);
+                    Color encodedPositionPartB = new Color(encodedX.y, encodedY.y, encodedZ.y, 1);
+                    positionsTexA.SetPixel(x, y, encodedPositionPartA);
+                    positionsTexB.SetPixel(x, y, encodedPositionPartB);
+                }
+            }
+            positionsTexA.Apply();
+            var resultTextureBytesA = positionsTexA.EncodeToPNG();
+            File.WriteAllBytes(Application.dataPath + SAVE_FOLDER_TEXTURES + targetName + "_PositionTex.png", resultTextureBytesA);
+
+            positionsTexB.Apply();
+            var resultTextureBytesB = positionsTexB.EncodeToPNG();
+            File.WriteAllBytes(Application.dataPath + SAVE_FOLDER_TEXTURES + targetName + "_PositionTexB.png", resultTextureBytesB);
+
+#if UNITY_EDITOR
+            AssetDatabase.Refresh();
+#endif
+        }
+
+        /// <summary>
+        /// From UnityCG.cginc
+        /// </summary>
+        Vector2 EncodeFloatRG(float v)
+        {
+            Vector2 kEncodeMul = new Vector2(1.0f, 255.0f);
+            float kEncodeBit = 1.0f / 255.0f;
+            Vector2 enc = kEncodeMul * v;
+            enc = new Vector2(enc.x - Mathf.Floor(enc.x), enc.y - Mathf.Floor(enc.y));
+            enc.x -= enc.y * kEncodeBit;
+            return enc;
         }
     }
 }

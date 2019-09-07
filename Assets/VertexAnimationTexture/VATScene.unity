@@ -1456,6 +1456,7 @@ MonoBehaviour:
   _target: {fileID: 1683186230}
   _frames: 180
   _recordingTime: 3
+  _highPrecisionPosition: 0
   _callWhenStartRecording:
     m_PersistentCalls:
       m_Calls:
@@ -2321,6 +2322,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9215386465595799908, guid: 0a48b9fa1556d234ba403443a9c776fd,
+        type: 3}
+      propertyPath: _vatAnimation
+      value: 
+      objectReference: {fileID: 11400000, guid: 89f44325d701c6143ae4307aac7d7155,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a48b9fa1556d234ba403443a9c776fd, type: 3}
 --- !u!1 &1683046821

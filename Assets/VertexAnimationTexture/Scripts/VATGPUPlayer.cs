@@ -7,15 +7,17 @@ namespace StoryProgramming
     {
         [SerializeField]
         VATAnimation _vatAnimation;
-        [SerializeField]
-        [Range(0, 1)]
+        [SerializeField, Range(0, 1)]
         float _state;
+        [SerializeField, Range(0.01f, 5)]
+        float _animationSpeed = 1;
 
         static MaterialPropertyBlock _mpb;
 
 
         Renderer _renderer;
         int _positionTexId;
+        int _positionTexBId;
         int _rotattionTexId;
 
         int _boundsCenterId;
@@ -24,6 +26,7 @@ namespace StoryProgramming
         int _startBoundsExtentsId;
 
         int _stateId;
+        int _highPrecisionMode;
 
         bool _recordingPlayed;
         float _startTime;
@@ -44,6 +47,7 @@ namespace StoryProgramming
         {
             _renderer = GetComponent<Renderer>();
             _positionTexId = Shader.PropertyToID("_PositionsTex");
+            _positionTexBId = Shader.PropertyToID("_PositionsTexB");
             _rotattionTexId = Shader.PropertyToID("_RotationsTex");
 
             _boundsCenterId = Shader.PropertyToID("_BoundsCenter");
@@ -52,6 +56,7 @@ namespace StoryProgramming
             _startBoundsExtentsId = Shader.PropertyToID("_StartBoundsExtents");
 
             _stateId = Shader.PropertyToID("_State");
+            _highPrecisionMode = Shader.PropertyToID("_HighPrecisionMode");
         }
 
         void Update()
@@ -75,6 +80,11 @@ namespace StoryProgramming
 
             _mpb.SetTexture(_positionTexId, _vatAnimation.PositionsTex);
             _mpb.SetTexture(_rotattionTexId, _vatAnimation.RotationsTex);
+            if (_vatAnimation.HighPrecisionPositionMode)
+            {
+                _mpb.SetTexture(_positionTexBId, _vatAnimation.PositionsTexB);
+            }
+            _mpb.SetInt(_highPrecisionMode, (_vatAnimation.HighPrecisionPositionMode) ? 1 : 0);
 
             _mpb.SetFloat(_stateId, _state);
 
@@ -90,8 +100,9 @@ namespace StoryProgramming
         {
             if (_recordingPlayed)
             {
-                _state = Mathf.InverseLerp(_startTime, _startTime + _vatAnimation.Duration, Time.time);
-                if (Time.time > _startTime + _vatAnimation.Duration)
+                float endTime = _startTime + _vatAnimation.Duration / _animationSpeed;
+                _state = Mathf.InverseLerp(_startTime, endTime, Time.time);
+                if (Time.time > endTime)
                 {
                     _recordingPlayed = false;
                 }

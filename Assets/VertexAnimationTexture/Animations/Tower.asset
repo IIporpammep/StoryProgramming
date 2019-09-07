@@ -19,5 +19,7 @@ MonoBehaviour:
   Frames: 180
   RenderersCount: 24
   Duration: 3
+  HighPrecisionPositionMode: 0
   PositionsTex: {fileID: 2800000, guid: ef3c307cc8f4e2d4fb624b0b93cb129e, type: 3}
+  PositionsTexB: {fileID: 0}
   RotationsTex: {fileID: 2800000, guid: 8fbfa150fd3a2f44ab5f3e4b71391d8b, type: 3}
