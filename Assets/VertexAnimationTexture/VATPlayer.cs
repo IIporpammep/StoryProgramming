@@ -31,7 +31,7 @@ namespace StoryProgramming
             }
 
 
-            _frameTime = _vatAnimation.Duration / (float)128;
+            _frameTime = _vatAnimation.Duration / (float)_vatAnimation.Frames;
             _recordingPlayed = true;
         }
 
@@ -67,8 +67,6 @@ namespace StoryProgramming
             for (int x = 0; x < _targetRenderers.Length; x++)
             {
                 Color color = _vatAnimation.RotationsTex.GetPixel(x, _currrentFrame);
-                Debug.LogError(color.ToString());
-
                 _targetRenderers[x].transform.rotation = new Quaternion(color.r.Remap(0, 1, -1, 1), color.g.Remap(0, 1, -1, 1), color.b.Remap(0, 1, -1, 1), color.a.Remap(0, 1, -1, 1));
                 //_targetRenderers[x].transform.rotation = Quaternion.Euler(color.r * 360, color.g * 360, color.b * 360);
             }

@@ -84,7 +84,6 @@ namespace StoryProgramming
                     //Debug.LogError(_renderersRotations[x][y].x + " " + _renderersRotations[x][y].y + " " + _renderersRotations[x][y].z + " " + _renderersRotations[x][y].w);
 
                     Color rotation = new Color(renderersRotations[x][y].x.Remap(-1, 1, 0, 1), renderersRotations[x][y].y.Remap(-1, 1, 0, 1), renderersRotations[x][y].z.Remap(-1, 1, 0, 1), renderersRotations[x][y].w.Remap(-1, 1, 0, 1));
-
                     //Vector3 euler = renderersRotations[x][y].eulerAngles;
                     //Color rotation = new Color(MathHelpers.AngleFrom0To360(euler.x) / 360f, MathHelpers.AngleFrom0To360(euler.y) / 360f, MathHelpers.AngleFrom0To360(euler.z) / 360f, 1);
                     rotationTex.SetPixel(x, y, rotation);
