@@ -8,4 +8,23 @@ public static class ExtensionMethods
     {
         return outMin + (value - inMin) * (outMax - outMin) / (inMax - inMin);
     }
+    public static Transform FindRecursively(this Transform target, string name)
+    {
+        for (int i = 0; i < target.childCount; i++)
+        {
+            var child = target.GetChild(i);
+            if (child.name == name)
+            {
+                return child;
+            }
+
+            Transform childOfChild = child.FindRecursively(name);
+            if (childOfChild != null)
+            {
+                return childOfChild;
+            }
+        }
+
+        return null;
+    }
 }
