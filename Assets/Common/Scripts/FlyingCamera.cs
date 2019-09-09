@@ -1,42 +1,71 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class FlyingCamera : MonoBehaviour
+namespace StoryProgramming
 {
-    [SerializeField]
-    float _ensitivityX = 3F;
-    [SerializeField]
-    float _sensitivityY = 3F;
-    [SerializeField]
-    float _minX = -3;
-    [SerializeField]
-    float _maxX = 3;
-    [SerializeField]
-    float _minY = -3;
-    [SerializeField]
-    float _maxY = 3;
-
-    Transform _pivotX;
-    Transform _pivotY;
-    float _rotationX;
-    float _rotationY;
-
-    void Awake()
+    public class FlyingCamera : MonoBehaviour
     {
-        _pivotX = transform.FindRecursively("PivotX");
-        _pivotY = transform.FindRecursively("PivotY");
-    }
+        [SerializeField]
+        float _ensitivityX = 100;
+        [SerializeField]
+        float _sensitivityY = 100;
+        [SerializeField, Range(0, 100)]
+        float _moveSpeed = 30;
 
-    void Update()
-    {
-        _rotationX += Input.GetAxis("Mouse X") * _ensitivityX * Time.deltaTime;
-        _rotationY -= Input.GetAxis("Mouse Y") * _sensitivityY * Time.deltaTime;
 
-        _rotationX = Mathf.Clamp(_rotationX, _minX, _maxX);
-        _rotationY = Mathf.Clamp(_rotationY, _minY, _maxY);
+        Transform _camera;
+        Transform _pivotX;
+        Transform _pivotY;
+        float _rotationX;
+        float _rotationY;
 
-        _pivotY.localRotation = Quaternion.Euler(_rotationY, 0, 0);
-        _pivotX.localRotation = Quaternion.Euler(0, _rotationX, 0);
+        void Awake()
+        {
+            _camera = transform.FindRecursively("Main Camera");
+            _pivotX = transform.FindRecursively("PivotX");
+            _pivotY = transform.FindRecursively("PivotY");
+
+            transform.localRotation = Quaternion.identity;
+            _rotationX = _pivotX.localRotation.eulerAngles.x;
+            _rotationY = _pivotY.localRotation.eulerAngles.y;
+        }
+
+        void Update()
+        {
+            _rotationX -= Input.GetAxis("Mouse Y") * _ensitivityX * Time.deltaTime;
+            _rotationY += Input.GetAxis("Mouse X") * _sensitivityY * Time.deltaTime;
+
+            _pivotX.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+            _pivotY.localRotation = Quaternion.Euler(0, _rotationY, 0);
+
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position += _camera.forward * _moveSpeed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.position -= _camera.forward * _moveSpeed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.position -= _camera.right * _moveSpeed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.position += _camera.right * _moveSpeed * Time.deltaTime;
+            }
+            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftCommand))
+            {
+                if (Cursor.lockState == CursorLockMode.Locked)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+            }
+        }
     }
 }
