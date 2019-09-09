@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ScanFromCameraMat
-  m_Shader: {fileID: -6465566751694194690, guid: 7e5be9e7020c49548b5e6e1ae73d8581,
+  m_Shader: {fileID: -6465566751694194690, guid: d43ce7414e404694380a8b0df1167fdf,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -63,7 +63,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_CA0FA469: 1.69
-    - Vector1_E616C47D: 2.97
+    - Vector1_E616C47D: 12
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
