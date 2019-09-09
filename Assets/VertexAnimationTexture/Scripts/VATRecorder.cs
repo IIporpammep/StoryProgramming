@@ -14,20 +14,31 @@ namespace StoryProgramming
     {
         [SerializeField]
         GameObject _target;
-        [SerializeField]
-        int _frames = 128;
+        [SerializeField, Range(1, 60)]
+        int _framesPerSecond = 60;
         [SerializeField]
         float _recordingTime = 3f;
         [SerializeField]
         bool _highPrecisionPosition;
         [SerializeField]
+        Mode _mode;
+        [SerializeField]
         UnityEvent _callWhenStartRecording;
 
+
+        enum Mode
+        {
+            Update, FixedUpdate
+        }
+
+
+        int _frames;
         float _timer;
         int _currrentFrame;
         float _frameTime;
         Bounds _bounds;
         Renderer[] _targetRenderers;
+        Rigidbody[] _targetRigidBodies;
         bool _recordingStarted;
         List<Vector3>[] _renderersPositions;
         List<Quaternion>[] _renderersRotations;
@@ -36,8 +47,11 @@ namespace StoryProgramming
 
         public void StartRecording()
         {
+            _target.transform.position = Vector3.zero;
+            _target.gameObject.SetActive(true);
             _bounds = new Bounds();
             _targetRenderers = _target.GetComponentsInChildren<Renderer>();
+            _targetRigidBodies = _target.GetComponentsInChildren<Rigidbody>();
             _renderersPositions = new List<Vector3>[_targetRenderers.Length];
             for (int i = 0; i < _renderersPositions.Length; i++)
             {
@@ -49,10 +63,11 @@ namespace StoryProgramming
                 _renderersRotations[i] = new List<Quaternion>();
             }
 
-            _frameTime = _recordingTime / (float)_frames;
+            _frames = Mathf.CeilToInt(_recordingTime * _framesPerSecond);
+            _frameTime = 1f / (float)_framesPerSecond;
             _timer = 0;
             _recordingStarted = true;
-            _currrentFrame = 1;
+            _currrentFrame = -1;
 
             VATMeshGenerator vatMeshGenerator = new VATMeshGenerator();
             UpdateBounds();
@@ -78,32 +93,67 @@ namespace StoryProgramming
         {
             for (int i = 0; i < _targetRenderers.Length; i++)
             {
-                _renderersPositions[i].Add(_targetRenderers[i].transform.position);
+                if (_mode == Mode.Update)
+                {
+                    _renderersPositions[i].Add(_targetRenderers[i].transform.position);
+                }
+                else
+                {
+                    _renderersPositions[i].Add(_targetRigidBodies[i].position);
+                }
+
             }
         }
         void RecordRotations()
         {
             for (int i = 0; i < _renderersRotations.Length; i++)
             {
-                _renderersRotations[i].Add(_targetRenderers[i].transform.rotation);
+                if (_mode == Mode.Update)
+                {
+                    _renderersRotations[i].Add(_targetRenderers[i].transform.rotation);
+                }
+                else
+                {
+                    _renderersRotations[i].Add(_targetRigidBodies[i].rotation);
+                }
             }
         }
 
 
         void Update()
         {
-            if (_currrentFrame == _frames || !_recordingStarted)
+            if (_mode != Mode.Update || _currrentFrame == _frames || !_recordingStarted)
             {
                 return;
             }
-            _timer += Time.deltaTime;
-            if (_timer >= _frameTime)
-            {
-                _timer -= _frameTime;
-                _currrentFrame++;
+            UpdateRecording();
+        }
 
+        void FixedUpdate()
+        {
+            if (_mode != Mode.FixedUpdate || _currrentFrame == _frames || !_recordingStarted)
+            {
+                return;
+            }
+            UpdateRecording();
+        }
+
+        void UpdateRecording()
+        {
+            if (_framesPerSecond == 60)
+            {
                 RecordFrame();
             }
+            else
+            {
+                _timer += Time.deltaTime;
+                if (_timer >= _frameTime)
+                {
+                    _timer -= _frameTime;
+                    RecordFrame();
+                }
+            }
+
             if (_currrentFrame == _frames)
             {
                 RecordingFinished();
@@ -112,6 +162,7 @@ namespace StoryProgramming
 
         void RecordFrame()
         {
+            _currrentFrame++;
             UpdateBounds();
             RecordPositions();
             RecordRotations();
@@ -123,7 +174,7 @@ namespace StoryProgramming
             VATGenerator vatGenerator = new VATGenerator(_highPrecisionPosition);
             vatGenerator.GenerateVAT(_target.name, _targetRenderers.Length, _recordingTime, _frames, _bounds, _startBounds, _renderersPositions, _renderersRotations);
         }
-        
+
         void OnDrawGizmos()
         {
             if (_currrentFrame == _frames)

@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c851497ea23e964caf163000b16e61a, type: 3}
-  m_Name: Tower
+  m_Name: TowerHighPrecision
   m_EditorClassIdentifier: 
-  BoundsCenter: {x: 6.754455, y: 2.7599018, z: 7.9908204}
-  BoundsExtents: {x: 7.6195893, y: 3.4420118, z: 8.660758}
+  BoundsCenter: {x: 6.754455, y: 2.7834704, z: 7.9908204}
+  BoundsExtents: {x: 7.6195893, y: 3.4655805, z: 8.660758}
   StartBoundsCenter: {x: 0.51100385, y: 2.4928854, z: 0.50458413}
   StartBoundsExtents: {x: 1.0115092, y: 2.999526, z: 1.0065757}
   Frames: 180
-  RenderersCount: 24
   Duration: 3
-  HighPrecisionPositionMode: 0
-  PositionsTex: {fileID: 2800000, guid: ef3c307cc8f4e2d4fb624b0b93cb129e, type: 3}
-  PositionsTexB: {fileID: 0}
-  RotationsTex: {fileID: 2800000, guid: 8fbfa150fd3a2f44ab5f3e4b71391d8b, type: 3}
+  HighPrecisionPositionMode: 1
+  PositionsTex: {fileID: 2800000, guid: 4cf8d896b64eede4aa28b6fdd6d2711c, type: 3}
+  PositionsTexB: {fileID: 2800000, guid: 8f6f06b68bee15d44a23cae9e7cd793c, type: 3}
+  RotationsTex: {fileID: 2800000, guid: e170b90275dd0224ba4c12a2320e8a11, type: 3}

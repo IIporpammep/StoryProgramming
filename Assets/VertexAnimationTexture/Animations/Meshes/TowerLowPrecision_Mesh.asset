@@ -6,7 +6,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Tower_Mesh
+  m_Name: TowerLowPrecision_Mesh
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -151,8 +151,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 6.754455, y: 2.7599018, z: 7.9908204}
-    m_Extent: {x: 7.6195893, y: 3.4420118, z: 8.660758}
+    m_Center: {x: 6.754455, y: 2.7834704, z: 7.9908204}
+    m_Extent: {x: 7.6195893, y: 3.4655805, z: 8.660758}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
