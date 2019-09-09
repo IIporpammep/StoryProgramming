@@ -6,17 +6,36 @@ namespace StoryProgramming
 {
     public class ScanFromCamera : MonoBehaviour
     {
-        [SerializeField]
-        Camera _camera;
         [SerializeField, Range(0.1f, 100)]
         float _maxDistance = 5;
-        [SerializeField, Range(0.1f, 50)]
-        float _scanSpeed = 10;
+        [SerializeField, Range(0.1f, 20)]
+        float _lifeTime = 10;
 
+
+        float _startTime;
+        Camera _camera;
+
+
+        void Awake()
+        {
+            _camera = Camera.main;
+            _startTime = Time.time;
+            UpdatePositionAndScale();
+        }
 
         void Update()
         {
-            float distance = Mathf.PingPong(Time.time * _scanSpeed, _maxDistance);
+            UpdatePositionAndScale();
+
+            if (Time.time >= _startTime + _lifeTime)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void UpdatePositionAndScale()
+        {
+            float distance = _maxDistance * Mathf.InverseLerp(_startTime, _startTime + _lifeTime, Time.time);
             transform.position = _camera.transform.position + _camera.transform.forward * distance;
             transform.forward = _camera.transform.forward;
 
