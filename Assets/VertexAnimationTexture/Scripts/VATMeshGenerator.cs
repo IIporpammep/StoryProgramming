@@ -68,7 +68,13 @@ namespace StoryProgramming
 
                 mesh.SetColors(colors);
                 combine[i].mesh = mesh;
-                combine[i].transform = targetRenderers[i].transform.localToWorldMatrix;
+
+                Matrix4x4 localToWorlds = targetRenderers[i].transform.localToWorldMatrix;
+                //Remove rotation from baking into mesh, because rotation encoded into rotation texure.
+                Vector3 position = localToWorlds.GetColumn(3);
+                Vector3 scale = new Vector3(localToWorlds.GetColumn(0).magnitude, localToWorlds.GetColumn(1).magnitude, localToWorlds.GetColumn(2).magnitude);
+                Matrix4x4 trsWithOutRotation = Matrix4x4.TRS(position, Quaternion.identity, scale);
+                combine[i].transform = trsWithOutRotation;
             }
             SavePrefab(targetName, combine);
         }

@@ -80,6 +80,7 @@ namespace StoryProgramming
 
         void SendDataToRenderer()
         {
+            //TODO set only changed data to MPB
             if (_mpb == null)
             {
                 _mpb = new MaterialPropertyBlock();
