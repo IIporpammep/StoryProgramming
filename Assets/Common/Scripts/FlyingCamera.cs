@@ -18,6 +18,7 @@ namespace StoryProgramming
         Transform _pivotY;
         float _rotationX;
         float _rotationY;
+        bool _lockCamera;
 
         void Awake()
         {
@@ -32,29 +33,33 @@ namespace StoryProgramming
 
         void Update()
         {
-            _rotationX -= Input.GetAxis("Mouse Y") * _ensitivityX * Time.deltaTime;
-            _rotationY += Input.GetAxis("Mouse X") * _sensitivityY * Time.deltaTime;
+            if (!_lockCamera)
+            {
+                _rotationX -= Input.GetAxis("Mouse Y") * _ensitivityX * Time.deltaTime;
+                _rotationY += Input.GetAxis("Mouse X") * _sensitivityY * Time.deltaTime;
 
-            _pivotX.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-            _pivotY.localRotation = Quaternion.Euler(0, _rotationY, 0);
+                _pivotX.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+                _pivotY.localRotation = Quaternion.Euler(0, _rotationY, 0);
 
 
-            if (Input.GetKey(KeyCode.W))
-            {
-                transform.position += _camera.forward * _moveSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.W))
+                {
+                    transform.position += _camera.forward * _moveSpeed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    transform.position -= _camera.forward * _moveSpeed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    transform.position -= _camera.right * _moveSpeed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    transform.position += _camera.right * _moveSpeed * Time.deltaTime;
+                }
             }
-            if (Input.GetKey(KeyCode.S))
-            {
-                transform.position -= _camera.forward * _moveSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                transform.position -= _camera.right * _moveSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                transform.position += _camera.right * _moveSpeed * Time.deltaTime;
-            }
+
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftCommand))
             {
                 if (Cursor.lockState == CursorLockMode.Locked)
@@ -65,6 +70,10 @@ namespace StoryProgramming
                 {
                     Cursor.lockState = CursorLockMode.Locked;
                 }
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                _lockCamera = !_lockCamera;
             }
         }
     }

@@ -33,7 +33,7 @@ namespace StoryProgramming
             }
         }
 
-        private void UpdatePositionAndScale()
+        void UpdatePositionAndScale()
         {
             float distance = _maxDistance * Mathf.InverseLerp(_startTime, _startTime + _lifeTime, Time.time);
             transform.position = _camera.transform.position + _camera.transform.forward * distance;

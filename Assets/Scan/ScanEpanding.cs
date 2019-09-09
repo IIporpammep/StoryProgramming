@@ -29,7 +29,7 @@ namespace StoryProgramming
             }
         }
 
-        private void UpdateScale()
+        void UpdateScale()
         {
             transform.localScale = Vector3.one * _maxScale * Mathf.InverseLerp(_startTime, _startTime + _lifeTime, Time.time);
         }

@@ -38,8 +38,7 @@ namespace StoryProgramming
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //Don't create the version with texture until it finished
-                //   GameObject.Instantiate(_scanFromCameraWithTexturePrefab);
+                GameObject.Instantiate(_scanFromCameraWithTexturePrefab);
             }
         }
     }
