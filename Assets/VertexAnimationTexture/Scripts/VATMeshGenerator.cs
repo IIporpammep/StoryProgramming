@@ -33,7 +33,10 @@ namespace StoryProgramming
             GameObject.Destroy(instance);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+            Selection.activeGameObject = prefab;
+            EditorGUIUtility.PingObject(prefab);
         }
+
 
         /// <summary>
         /// Must be called before recording 
