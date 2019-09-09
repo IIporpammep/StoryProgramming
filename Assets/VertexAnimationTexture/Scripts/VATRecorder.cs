@@ -18,8 +18,10 @@ namespace StoryProgramming
         int _framesPerSecond = 60;
         [SerializeField]
         float _recordingTime = 3f;
+        [Header(("Generates two textures for position."))]
         [SerializeField]
         bool _highPrecisionPosition;
+        [Header(("Use FixedUpdate mode to record rigidbodies physics animation"))]
         [SerializeField]
         Mode _mode;
         [SerializeField]

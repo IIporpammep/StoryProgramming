@@ -2,30 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
+
 namespace StoryProgramming
 {
-    [CustomEditor(typeof(VATGPUPlayer))]
+    [CustomEditor(typeof(VATGPUPlayer)), CanEditMultipleObjects]
     public class VATGPUPlayerEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            VATGPUPlayer vatPlayer = (target as VATGPUPlayer);
+            List<VATGPUPlayer> vatPlayers = targets.Cast<VATGPUPlayer>().ToList();
 
             if (Application.isPlaying)
             {
-                if (vatPlayer.IsThereAnimation())
+                if (GUILayout.Button("Play Animation"))
                 {
-                    if (GUILayout.Button("Play Animation"))
+                    foreach (var item in vatPlayers)
                     {
-                        vatPlayer.PlayRecording();
+                        if (item.IsThereAnimation())
+                        {
+                            item.PlayRecording();
+                        }
                     }
                 }
-                else
-                {
-                    GUILayout.Label("Generate Animation with VATRecorder and set the generated animation to _vatAnimation");
-                }
             }
+
             else
             {
                 GUILayout.Label("Enter PlayMode to be able to Play Animation");
