@@ -61,9 +61,13 @@ void CalculatePositionFromVAT_float(float3 inputObjectPosition, float4 vertexCol
     float3 decodedPivot = DecodePositionInBounds(pivot, _StartBoundsCenter, _StartBoundsExtents);
 
     float3 offset = inputObjectPosition - decodedPivot;
-
+       
+    //without this remap some parts of the mesh could be in wrong positions
+    //seems like to sample textures in centres of pixels we need to do this half pixel remap
+    //something similar described there http://www.asawicki.info/news_1516_half-pixel_offset_in_directx_11.html
     float halfPixel = 1.0 / (_PartsCount * 2);
-    float idOfMeshPart = remap(vertexColor.a, float2(0, 1), float2(halfPixel, 1 - halfPixel));//with out this remap some parts of the mesh could be in wrong positions
+    float idOfMeshPart = remap(vertexColor.a, float2(0, 1), float2(halfPixel, 1 - halfPixel));
+
     float currentFrame = _State;
  
     float4 vatRotation = tex2Dlod(_RotationsTex, float4(idOfMeshPart, currentFrame, 0, 0));
