@@ -14,6 +14,7 @@ namespace StoryProgramming
         public Vector3 StartBoundsCenter;
         public Vector3 StartBoundsExtents;
         public float Frames;
+        public int PartsCount;
         public float Duration;
         public bool HighPrecisionPositionMode;
         public Texture2D PositionsTex;

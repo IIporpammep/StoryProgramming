@@ -49,6 +49,7 @@ namespace StoryProgramming
 
         public void StartRecording()
         {
+            Debug.LogError("Recording Started");
             _target.transform.position = Vector3.zero;
             _target.gameObject.SetActive(true);
             _bounds = new Bounds();
@@ -101,6 +102,11 @@ namespace StoryProgramming
                 }
                 else
                 {
+                    if (_targetRenderers[i].gameObject != _targetRigidBodies[i].gameObject)
+                    {
+                        Debug.LogError(_targetRenderers[i].gameObject.name + " " + _targetRigidBodies[i].gameObject.name);
+                    }
+
                     _renderersPositions[i].Add(_targetRigidBodies[i].position);
                 }
 
@@ -174,6 +180,11 @@ namespace StoryProgramming
         {
             Debug.LogError("Recording Finished");
             VATGenerator vatGenerator = new VATGenerator(_highPrecisionPosition);
+            if (_highPrecisionPosition)
+            {
+                _bounds.Expand(1);//Because EncodeFloatRG won't properly encode on the borders of original bounds.
+            }
+
             vatGenerator.GenerateVAT(_target.name, _targetRenderers.Length, _recordingTime, _frames, _bounds, _startBounds, _renderersPositions, _renderersRotations);
         }
 

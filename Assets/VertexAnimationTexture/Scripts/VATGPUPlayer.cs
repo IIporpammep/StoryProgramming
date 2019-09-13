@@ -29,6 +29,7 @@ namespace StoryProgramming
         int _startBoundsExtentsId;
 
         int _stateId;
+        int _partsCountId;
         int _highPrecisionMode;
 
         bool _recordingPlayed;
@@ -63,6 +64,7 @@ namespace StoryProgramming
             _startBoundsCenterId = Shader.PropertyToID("_StartBoundsCenter");
             _startBoundsExtentsId = Shader.PropertyToID("_StartBoundsExtents");
 
+            _partsCountId = Shader.PropertyToID("_PartsCount");
             _stateId = Shader.PropertyToID("_State");
             _highPrecisionMode = Shader.PropertyToID("_HighPrecisionMode");
         }
@@ -96,7 +98,7 @@ namespace StoryProgramming
             _mpb.SetInt(_highPrecisionMode, (_vatAnimation.HighPrecisionPositionMode) ? 1 : 0);
 
             _mpb.SetFloat(_stateId, _state);
-
+            _mpb.SetInt(_partsCountId, _vatAnimation.PartsCount);
             _mpb.SetVector(_boundsCenterId, _vatAnimation.BoundsCenter);
             _mpb.SetVector(_boundsExtentsId, _vatAnimation.BoundsExtents);
             _mpb.SetVector(_startBoundsCenterId, _vatAnimation.StartBoundsCenter);

@@ -10,6 +10,7 @@ float3 _BoundsExtents;
 float3 _StartBoundsCenter;
 float3 _StartBoundsExtents;
 int _HighPrecisionMode;
+int _PartsCount;
 
 
 float3 DecodePositionInBounds(float3 encodedPosition, float3 boundsCenter, float3 boundsExtents)
@@ -48,6 +49,12 @@ inline float DecodeFloatRG(float2 enc)
     return dot(enc, kDecodeDot);
 }
 
+float remap(float In, float2 InMinMax, float2 OutMinMax)
+{
+    return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+}
+
+
 void CalculatePositionFromVAT_float(float3 inputObjectPosition, float4 vertexColor, float3 inputObjectNormal, out float3 objectPosition, out float3 rotatedNormal)
 {
     float3 pivot = vertexColor.xyz;
@@ -55,7 +62,8 @@ void CalculatePositionFromVAT_float(float3 inputObjectPosition, float4 vertexCol
 
     float3 offset = inputObjectPosition - decodedPivot;
 
-    float idOfMeshPart = vertexColor.a;
+    float halfPixel = 1.0 / (_PartsCount * 2);
+    float idOfMeshPart = remap(vertexColor.a, float2(0, 1), float2(halfPixel, 1 - halfPixel));//with out this remap some parts of the mesh could be in wrong positions
     float currentFrame = _State;
  
     float4 vatRotation = tex2Dlod(_RotationsTex, float4(idOfMeshPart, currentFrame, 0, 0));
@@ -75,7 +83,6 @@ void CalculatePositionFromVAT_float(float3 inputObjectPosition, float4 vertexCol
         float3 vatPosition = tex2Dlod(_PositionsTex, float4(idOfMeshPart, currentFrame, 0, 0)).xyz;
         objectPosition = rotated + DecodePositionInBounds(vatPosition, _BoundsCenter, _BoundsExtents);
     }
-
     rotatedNormal = RotateVectorUsingQuaternionFast(decodedRotation, inputObjectNormal);
 }
 #endif

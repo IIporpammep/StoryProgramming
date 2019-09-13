@@ -17,6 +17,7 @@ MonoBehaviour:
   StartBoundsCenter: {x: 0.51100385, y: 2.4928854, z: 0.50458413}
   StartBoundsExtents: {x: 1.0115092, y: 2.999526, z: 1.0065757}
   Frames: 180
+  PartsCount: 24
   Duration: 3
   HighPrecisionPositionMode: 0
   PositionsTex: {fileID: 2800000, guid: 91eed21989583eb4ba1bacf4e00d8189, type: 3}

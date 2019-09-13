@@ -43,6 +43,7 @@ namespace StoryProgramming
             vatAnimation.StartBoundsCenter = startBounds.center;
             vatAnimation.StartBoundsExtents = startBounds.extents;
             vatAnimation.HighPrecisionPositionMode = _highPrecisionPosition;
+            vatAnimation.PartsCount = renderersCount;
             if (!_highPrecisionPosition)
             {
                 vatAnimation.PositionsTex = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_PositionTex.png", typeof(Texture2D));
@@ -193,6 +194,7 @@ namespace StoryProgramming
 
         /// <summary>
         /// From UnityCG.cginc
+        /// Encoding/decoding [0..1) floats into 8 bit/channel RG. Note that 1.0 will not be encoded properly.
         /// </summary>
         Vector2 EncodeFloatRG(float v)
         {
