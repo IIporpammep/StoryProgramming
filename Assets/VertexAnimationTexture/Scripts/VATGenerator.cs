@@ -44,6 +44,7 @@ namespace StoryProgramming
             vatAnimation.StartBoundsExtents = startBounds.extents;
             vatAnimation.HighPrecisionPositionMode = _highPrecisionPosition;
             vatAnimation.PartsCount = renderersCount;
+            vatAnimation.PartsIdsInUV3 = vatAnimation.PartsCount > 256;
             if (!_highPrecisionPosition)
             {
                 vatAnimation.PositionsTex = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/" + SAVE_FOLDER_TEXTURES + targetName + "_PositionTex.png", typeof(Texture2D));
@@ -169,9 +170,9 @@ namespace StoryProgramming
                                                    Mathf.InverseLerp(-bounds.extents.y, bounds.extents.y, positionInBounds.y),
                                                    Mathf.InverseLerp(-bounds.extents.z, bounds.extents.z, positionInBounds.z));
 
-                    Vector2 encodedX = EncodeFloatRG(positionInBounds.x);
-                    Vector2 encodedY = EncodeFloatRG(positionInBounds.y);
-                    Vector2 encodedZ = EncodeFloatRG(positionInBounds.z);
+                    Vector2 encodedX = MathHelpers.EncodeFloatRG(positionInBounds.x);
+                    Vector2 encodedY = MathHelpers.EncodeFloatRG(positionInBounds.y);
+                    Vector2 encodedZ = MathHelpers.EncodeFloatRG(positionInBounds.z);
 
                     Color encodedPositionPartA = new Color(encodedX.x, encodedY.x, encodedZ.x, 1);
                     Color encodedPositionPartB = new Color(encodedX.y, encodedY.y, encodedZ.y, 1);
@@ -190,20 +191,6 @@ namespace StoryProgramming
 #if UNITY_EDITOR
             AssetDatabase.Refresh();
 #endif
-        }
-
-        /// <summary>
-        /// From UnityCG.cginc
-        /// Encoding/decoding [0..1) floats into 8 bit/channel RG. Note that 1.0 will not be encoded properly.
-        /// </summary>
-        Vector2 EncodeFloatRG(float v)
-        {
-            Vector2 kEncodeMul = new Vector2(1.0f, 255.0f);
-            float kEncodeBit = 1.0f / 255.0f;
-            Vector2 enc = kEncodeMul * v;
-            enc = new Vector2(enc.x - Mathf.Floor(enc.x), enc.y - Mathf.Floor(enc.y));
-            enc.x -= enc.y * kEncodeBit;
-            return enc;
-        }
+        }    
     }
 }

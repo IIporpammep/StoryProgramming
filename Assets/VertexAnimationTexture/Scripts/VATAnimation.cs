@@ -17,6 +17,7 @@ namespace StoryProgramming
         public int PartsCount;
         public float Duration;
         public bool HighPrecisionPositionMode;
+        public bool PartsIdsInUV3;
         public Texture2D PositionsTex;
         [Tooltip("For high precision mode")]
         public Texture2D PositionsTexB;

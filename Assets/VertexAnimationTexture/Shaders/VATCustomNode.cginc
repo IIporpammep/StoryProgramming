@@ -5,13 +5,13 @@ sampler2D _PositionsTex;
 sampler2D _PositionsTexB;
 sampler2D _RotationsTex;
 float _State;
+int _PartsCount;
 float3 _BoundsCenter;
 float3 _BoundsExtents;
 float3 _StartBoundsCenter;
 float3 _StartBoundsExtents;
 int _HighPrecisionMode;
-int _PartsCount;
-
+int _PartsIdsInUV3;
 
 float3 DecodePositionInBounds(float3 encodedPosition, float3 boundsCenter, float3 boundsExtents)
 {
@@ -49,29 +49,38 @@ inline float DecodeFloatRG(float2 enc)
     return dot(enc, kDecodeDot);
 }
 
-float remap(float In, float2 InMinMax, float2 OutMinMax)
+float Remap(float In, float2 InMinMax, float2 OutMinMax)
 {
     return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
 }
 
 
-void CalculatePositionFromVAT_float(float3 inputObjectPosition, float4 vertexColor, float3 inputObjectNormal, out float3 objectPosition, out float3 rotatedNormal)
+void CalculatePositionFromVAT_float(float3 inputObjectPosition, float3 inputObjectNormal, float4 vertexColor, float2 uv3, out float3 objectPosition, out float3 rotatedNormal)
 {
-    float3 pivot = vertexColor.xyz;
-    float3 decodedPivot = DecodePositionInBounds(pivot, _StartBoundsCenter, _StartBoundsExtents);
+    float encodedPartId;
+    if (_PartsIdsInUV3 == 1)
+    {
+        encodedPartId = Remap(DecodeFloatRG(uv3), float2(0, 1 - 1.0 / (float)_PartsCount), float2(0, 1)); //needs to be remapped to [0,1], because 1.0 will not be encoded properly using FloatRG encoding
+    }
+    else
+    {
+        encodedPartId = vertexColor.a;
+    }
 
-    float3 offset = inputObjectPosition - decodedPivot;
-       
     //without this remap some parts of the mesh could be in wrong positions
     //seems like to sample textures in centres of pixels we need to do this half pixel remap
     //something similar described there http://www.asawicki.info/news_1516_half-pixel_offset_in_directx_11.html
     float halfPixel = 1.0 / (_PartsCount * 2);
-    float idOfMeshPart = remap(vertexColor.a, float2(0, 1), float2(halfPixel, 1 - halfPixel));
+    float idOfMeshPart = Remap(encodedPartId, float2(0, 1), float2(halfPixel, 1 - halfPixel));
 
     float currentFrame = _State;
  
     float4 vatRotation = tex2Dlod(_RotationsTex, float4(idOfMeshPart, currentFrame, 0, 0));
     float4 decodedRotation = DecodeQuaternion(vatRotation);
+
+    float3 pivot = vertexColor.xyz;
+    float3 decodedPivot = DecodePositionInBounds(pivot, _StartBoundsCenter, _StartBoundsExtents);
+    float3 offset = inputObjectPosition - decodedPivot;
 
     float3 rotated = RotateVectorUsingQuaternionFast(decodedRotation, offset);
     

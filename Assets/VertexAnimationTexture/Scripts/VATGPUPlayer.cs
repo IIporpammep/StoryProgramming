@@ -31,6 +31,7 @@ namespace StoryProgramming
         int _stateId;
         int _partsCountId;
         int _highPrecisionMode;
+        int _partsIdsInUV3Id;
 
         bool _recordingPlayed;
         float _startTime;
@@ -67,6 +68,7 @@ namespace StoryProgramming
             _partsCountId = Shader.PropertyToID("_PartsCount");
             _stateId = Shader.PropertyToID("_State");
             _highPrecisionMode = Shader.PropertyToID("_HighPrecisionMode");
+            _partsIdsInUV3Id = Shader.PropertyToID("_PartsIdsInUV3");
         }
 
         void Update()
@@ -96,6 +98,7 @@ namespace StoryProgramming
                 _mpb.SetTexture(_positionTexBId, _vatAnimation.PositionsTexB);
             }
             _mpb.SetInt(_highPrecisionMode, (_vatAnimation.HighPrecisionPositionMode) ? 1 : 0);
+            _mpb.SetInt(_partsIdsInUV3Id, (_vatAnimation.PartsIdsInUV3) ? 1 : 0);
 
             _mpb.SetFloat(_stateId, _state);
             _mpb.SetInt(_partsCountId, _vatAnimation.PartsCount);

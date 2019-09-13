@@ -26,13 +26,11 @@ namespace StoryProgramming
         Mode _mode;
         [SerializeField]
         UnityEvent _callWhenStartRecording;
-
-
+        
         enum Mode
         {
             Update, FixedUpdate
         }
-
 
         int _frames;
         float _timer;

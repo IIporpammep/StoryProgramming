@@ -44,10 +44,7 @@ namespace StoryProgramming
         /// <param name="targetRenderers"></param>
         public void GenerateMesh(string targetName, Renderer[] targetRenderers, Bounds startBounds)
         {
-            if (targetRenderers.Length > 256)// Because of using 1 channel of Color that 8bit(0.255), you use UV3 for example insted of Vertex Color
-            {
-                Debug.LogError("Too much renderers, rendererID indexing only for 256.");
-            }
+            bool useUV3ForIds = targetRenderers.Length > 256;
 
             EnsureFolders();
             CombineInstance[] combine = new CombineInstance[targetRenderers.Length];
@@ -56,21 +53,32 @@ namespace StoryProgramming
                 Mesh mesh = GameObject.Instantiate(targetRenderers[i].GetComponent<MeshFilter>().sharedMesh);
 
                 List<Color> colors = new List<Color>();
-                //Store pivots in colors of mesh to be able to rotate mesh. Maybe it's better to store them in UV3 for example, it seems that precision of Color is worse than UV.
+                List<Vector2> uv3 = new List<Vector2>();
+
+                //Store pivots in colors of mesh to be able to rotate mesh.
                 Vector3 positionInBounds = targetRenderers[i].transform.position - startBounds.center;
                 positionInBounds = new Vector3(Mathf.InverseLerp(-startBounds.extents.x, startBounds.extents.x, positionInBounds.x),
                                                Mathf.InverseLerp(-startBounds.extents.y, startBounds.extents.y, positionInBounds.y),
                                                Mathf.InverseLerp(-startBounds.extents.z, startBounds.extents.z, positionInBounds.z));
 
                 float rendererID = i / (float)(targetRenderers.Length - 1); //to indexate columns in VAT
-                Color encodedPosition = new Color(positionInBounds.x, positionInBounds.y, positionInBounds.z, rendererID);
+                Color encodedPosition = new Color(positionInBounds.x, positionInBounds.y, positionInBounds.z, (useUV3ForIds) ? 1 : rendererID);
 
+                Vector2 rendererIDasRG = MathHelpers.EncodeFloatRG(i / (float)(targetRenderers.Length));
                 for (int q = 0; q < mesh.vertexCount; q++)
                 {
                     colors.Add(encodedPosition);
+                    if (useUV3ForIds)
+                    {
+                        uv3.Add(rendererIDasRG);//Do not substract 1 from targetRenderers.Length cause EncodeFloatRG can't encode 1
+                    }
                 }
 
                 mesh.SetColors(colors);
+                if (useUV3ForIds)
+                {
+                    mesh.SetUVs(2, uv3);
+                }
                 combine[i].mesh = mesh;
 
                 Matrix4x4 localToWorlds = targetRenderers[i].transform.localToWorldMatrix;
