@@ -55,7 +55,7 @@ float Remap(float In, float2 InMinMax, float2 OutMinMax)
 }
 
 
-void CalculatePositionFromVAT_float(float3 inputObjectPosition, float3 inputObjectNormal, float4 vertexColor, float2 uv3, out float3 objectPosition, out float3 rotatedNormal)
+void CalculateVAT_float(float3 inputObjectPosition, float3 inputObjectNormal, float4 vertexColor, float2 uv3, out float3 objectPosition, out float3 rotatedNormal)
 {
     float encodedPartId;
     if (_PartsIdsInUV3 == 1)

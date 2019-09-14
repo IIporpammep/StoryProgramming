@@ -56,13 +56,13 @@ namespace StoryProgramming
                 List<Vector2> uv3 = new List<Vector2>();
 
                 //Store pivots in colors of mesh to be able to rotate mesh.
-                Vector3 positionInBounds = targetRenderers[i].transform.position - startBounds.center;
-                positionInBounds = new Vector3(Mathf.InverseLerp(-startBounds.extents.x, startBounds.extents.x, positionInBounds.x),
-                                               Mathf.InverseLerp(-startBounds.extents.y, startBounds.extents.y, positionInBounds.y),
-                                               Mathf.InverseLerp(-startBounds.extents.z, startBounds.extents.z, positionInBounds.z));
+                Vector3 pivotPositionInBounds = targetRenderers[i].transform.position - startBounds.center;
+                pivotPositionInBounds = new Vector3(Mathf.InverseLerp(-startBounds.extents.x, startBounds.extents.x, pivotPositionInBounds.x),
+                                               Mathf.InverseLerp(-startBounds.extents.y, startBounds.extents.y, pivotPositionInBounds.y),
+                                               Mathf.InverseLerp(-startBounds.extents.z, startBounds.extents.z, pivotPositionInBounds.z));
 
                 float rendererID = i / (float)(targetRenderers.Length - 1); //to indexate columns in VAT
-                Color encodedPosition = new Color(positionInBounds.x, positionInBounds.y, positionInBounds.z, (useUV3ForIds) ? 1 : rendererID);
+                Color encodedPosition = new Color(pivotPositionInBounds.x, pivotPositionInBounds.y, pivotPositionInBounds.z, (useUV3ForIds) ? 1 : rendererID);
 
                 Vector2 rendererIDasRG = MathHelpers.EncodeFloatRG(i / (float)(targetRenderers.Length));
                 for (int q = 0; q < mesh.vertexCount; q++)

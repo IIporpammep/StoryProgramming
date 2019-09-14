@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Castle_Mat
+  m_Name: CastleHQ_Mat
   m_Shader: {fileID: -6465566751694194690, guid: 00ea760e38fd0fe45b6102eed0a99623,
     type: 3}
   m_ShaderKeywords: 

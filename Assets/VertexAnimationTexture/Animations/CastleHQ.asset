@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c851497ea23e964caf163000b16e61a, type: 3}
+  m_Name: CastleHQ
+  m_EditorClassIdentifier: 
+  BoundsCenter: {x: 16.648897, y: 12.644074, z: -11.792053}
+  BoundsExtents: {x: 31.055838, y: 13.869682, z: 28.75129}
+  StartBoundsCenter: {x: 0.001124382, y: 3.4905484, z: 0.42164898}
+  StartBoundsExtents: {x: 8.470839, y: 3.9977818, z: 8.45768}
+  Frames: 300
+  PartsCount: 304
+  Duration: 5
+  HighPrecisionPositionMode: 1
+  PartsIdsInUV3: 1
+  PositionsTex: {fileID: 2800000, guid: 3b0f78d8519067449b3f989f61747491, type: 3}
+  PositionsTexB: {fileID: 2800000, guid: 32f578c3ceefdbb4ca52cc7b3250dd74, type: 3}
+  RotationsTex: {fileID: 2800000, guid: 0bb47f5d41e591b42a943f8e28550654, type: 3}
