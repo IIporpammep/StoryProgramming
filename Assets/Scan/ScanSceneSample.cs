@@ -38,7 +38,8 @@ namespace StoryProgramming
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                GameObject.Instantiate(_scanFromCameraWithTexturePrefab);
+                //Don't create cause it doesn't look good enough
+                //GameObject.Instantiate(_scanFromCameraWithTexturePrefab);
             }
         }
     }
