@@ -10,8 +10,8 @@ namespace StoryProgramming
     {
         [SerializeField, Range(0, 1)]
         float _DissolveValue;
-
-
+        [SerializeField, Range(0, 10)]
+        float _animationDuration = 2;
 
         const int MAX_HITS_COUNT = 10;
 
@@ -26,6 +26,11 @@ namespace StoryProgramming
 
         //1(max)..0(end of life time)
         float[] _hitsIntensity = new float[MAX_HITS_COUNT];
+
+        bool _recordingPlayed;
+        float _startTime;
+        float _finishTime;
+        float _targetDissolveValue;
 
 
         public void AddHit(Vector3 worldPosition, float duration, float radius)
@@ -66,6 +71,20 @@ namespace StoryProgramming
             SendHitsToRenderer();
         }
 
+        public void PlayAppearingAnimation()
+        {
+            _recordingPlayed = true;
+            _finishTime = Time.time + Mathf.Lerp(0, _animationDuration, _DissolveValue);
+            _targetDissolveValue = 0;
+        }
+
+        public void PlayDisappearingAnimation()
+        {
+            _recordingPlayed = true;
+            _finishTime = Time.time + Mathf.Lerp(0, _animationDuration, 1 - _DissolveValue);
+            _targetDissolveValue = 1;
+        }
+
 
         void Awake()
         {
@@ -75,6 +94,7 @@ namespace StoryProgramming
 
         void Update()
         {
+            UpdateAnimation();
             UpdateHitsLifeTime();
             SendHitsToRenderer();
         }
@@ -104,6 +124,17 @@ namespace StoryProgramming
                 _hitRadius[id] = _hitRadius[idLast];
             }
             _hitsCount--;
+        }
+        void UpdateAnimation()
+        {
+            if (_recordingPlayed)
+            {
+                _DissolveValue = Mathf.Lerp(1 - _targetDissolveValue, _targetDissolveValue, Mathf.InverseLerp(_finishTime - _animationDuration, _finishTime, Time.time));
+                if (Time.time > _finishTime)
+                {
+                    _recordingPlayed = false;
+                }
+            }
         }
 
 
