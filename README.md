@@ -1,5 +1,5 @@
 # StoryProgramming
-
+This is companion repository for [<b>my site</b>](https://storyprogramming.com/).
 ## Shaders
 [<b>Shader graph: Rigid body animation using vertex animation textures</b>](https://storyprogramming.com/2019/09/18/shader-graph-rigid-body-animation-using-vertex-animation-textures/) – generator that can record animation, create a combined mesh, and generate vertex animation textures. Vertex animation textures are then used by special shader to play the recorded animation on a single mesh transforming all parts of the mesh on GPU.
 
