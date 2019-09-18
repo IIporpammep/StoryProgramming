@@ -67,8 +67,8 @@ void CalculateVAT_float(float3 inputObjectPosition, float3 inputObjectNormal, fl
         encodedPartId = vertexColor.a;
     }
 
-    //without this remap some parts of the mesh could be in wrong positions
-    //seems like to sample textures in centres of pixels we need to do this half pixel remap
+    //To prevent Bilinear FilterMode from interpolating between idOfMeshParts, sample over X axis must be in the centre of pixel.
+    //Without this remap some parts of the mesh could be in wrong positions
     //something similar described there http://www.asawicki.info/news_1516_half-pixel_offset_in_directx_11.html
     float halfPixel = 1.0 / (_PartsCount * 2);
     float idOfMeshPart = Remap(encodedPartId, float2(0, 1), float2(halfPixel, 1 - halfPixel));
