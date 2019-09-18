@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StoryProgramming
 {
     /// <summary>
-    /// Used to test VAT encoding/decoding using CPU 
+    /// Used to test VAT encoding/decoding using CPU, VATGenerator.SetTextureSettings can set isReadable if uncomment
     /// </summary>
     public class VATPlayer : MonoBehaviour
     {

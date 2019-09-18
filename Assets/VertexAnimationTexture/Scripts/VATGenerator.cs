@@ -142,9 +142,9 @@ namespace StoryProgramming
             if (textureImporter != null)
             {
                 textureImporter.sRGBTexture = false;
-                textureImporter.isReadable = true;
+                //textureImporter.isReadable = true; Only needed for VATPlayer that uses CPU to play animations
                 textureImporter.mipmapEnabled = false;
-                textureImporter.filterMode = FilterMode.Point;
+                textureImporter.filterMode = FilterMode.Bilinear;
                 textureImporter.wrapMode = TextureWrapMode.Clamp;
                 textureImporter.npotScale = TextureImporterNPOTScale.None;
                 textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
