@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#pragma warning disable CS0649 //hide never assigned SerializeField warnings
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
