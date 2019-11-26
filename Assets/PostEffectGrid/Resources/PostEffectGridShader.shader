@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Custom/PostEffectGrid"
+﻿Shader "Hidden/Custom/PostEffectGridShader"
 {
     HLSLINCLUDE
 
@@ -19,7 +19,8 @@
         {
             return lerp(x, 1.0, unity_OrthoParams.w);
         }
-        // Reconstruct view-space position from UV and depth.
+
+        // Reconstruct view space position from UV and depth.
 		//float3x3 proj = (float3x3)unity_CameraProjection;
         // p11_22 = (unity_CameraProjection._11, unity_CameraProjection._22)
         // p13_31 = (unity_CameraProjection._13, unity_CameraProjection._23)
@@ -41,7 +42,6 @@
 			return ob * 1e8;
 		}
 
-		// Depth/normal sampling functions
         float SampleDepth(float2 uv)
         {
             float d = Linear01Depth(SAMPLE_DEPTH_TEXTURE_LOD(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv), 0));
@@ -72,10 +72,10 @@
 			  return color;
 			}
 
-			// Reconstruct the view-space position.
+			// Reconstruct the view space position.
             float3 vpos_o = ReconstructViewPos( i.texcoord, depth_o, p11_22, p13_31);
 
-			//Reconstruct the world space
+			//Reconstruct the world space from view space
 			//float4x4 viewTranspose = transpose(UNITY_MATRIX_V);
             //float3 worldNormal = mul(viewTranspose, float4(viewNormal.xyz, 0)).xyz; // 0 is used for directions, use 1 for positions
 			float4x4 cameraToWorld = transpose(unity_WorldToCamera);
