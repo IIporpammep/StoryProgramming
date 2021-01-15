@@ -20,6 +20,7 @@ Shader "Unlit/RayMarchingBasic"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+            #include "UnityLightingCommon.cginc"
 
             #define MAX_STEPS 200
             #define MAX_DIST 200
@@ -76,7 +77,7 @@ Shader "Unlit/RayMarchingBasic"
             float3 GetNormal(float3 position)
             {
                 float distanceToSurface = GetDistance(position);
-                float2 offsets = float2(0.01, 0);
+                float2 offsets = float2(0.0001, 0);
                 float3 normal = distanceToSurface - float3(GetDistance(position - offsets.xyy),
                                                            GetDistance(position - offsets.yxy),
                                                            GetDistance(position - offsets.yyx));
@@ -84,13 +85,21 @@ Shader "Unlit/RayMarchingBasic"
                 return normalize(normal);
             }
 
-            float GetLight(float3 position)
+            float3 GetLight(float3 position)
             {
-                float3 lightDirection = _WorldSpaceLightPos0.xyz;
+                float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
                 float3 lightPosition = position + lightDirection * 100;
                 float3 surfaceNormal = GetNormal(position);
 
-                float diffuseLighting = saturate(dot(surfaceNormal, lightDirection));
+                float3 diffuseLighting = saturate(dot(surfaceNormal, lightDirection)) * _LightColor0;
+
+                float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - position.xyz);
+                float shiniess = 50;
+
+                float cosAlpha = dot(reflect(-lightDirection, surfaceNormal), viewDirection);
+                float3 specularLighting = pow(max(0, cosAlpha), shiniess) * _LightColor0;
+
+                float3 resultLight = diffuseLighting + specularLighting; // diffuseLighting + specular;
 
                 // Start not from the point, but a little bit above it in the normal direction, otherwise RayMarching will exit imminently
                 // and everything will be in the shadows.
@@ -98,10 +107,9 @@ Shader "Unlit/RayMarchingBasic"
                 if (distanceToLight < length(lightPosition - position))
                 {
                     //In shadow.
-                    diffuseLighting *= 0.1;
+                    resultLight *= 0.1;
                 }
-
-                return diffuseLighting;
+                return resultLight;
             }
 
             fixed4 frag(v2f i) : SV_Target
@@ -110,9 +118,9 @@ Shader "Unlit/RayMarchingBasic"
 
                 float3 intersectionPoint = _WorldSpaceCameraPos + normalize(i.ray) * distance;
 
-                float diffuse = GetLight(intersectionPoint);
+                float3 color = GetLight(intersectionPoint);
 
-                return float4(diffuse.rrr, 1);
+                return float4(color, 1);
             }
             ENDCG
         }
