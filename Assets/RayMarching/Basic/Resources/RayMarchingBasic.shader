@@ -52,8 +52,9 @@ Shader "Unlit/RayMarchingBasic"
 
             float GetDistance(float3 position)
             {
-                float distance = length(position) - 0.5;
-                return distance;
+                float distanceToSphere = length(position - float3(0, 1, 0)) - 0.5;
+                float distanceToPlane = position.y;
+                return min(distanceToSphere, distanceToPlane);
             }
 
             float RayMarch(float3 rayOrigin, float3 rayDirection)
@@ -72,17 +73,46 @@ Shader "Unlit/RayMarchingBasic"
                 return distanceFromOrigin;
             }
 
+            float3 GetNormal(float3 position)
+            {
+                float distanceToSurface = GetDistance(position);
+                float2 offsets = float2(0.01, 0);
+                float3 normal = distanceToSurface - float3(GetDistance(position - offsets.xyy),
+                                                           GetDistance(position - offsets.yxy),
+                                                           GetDistance(position - offsets.yyx));
+
+                return normalize(normal);
+            }
+
+            float GetLight(float3 position)
+            {
+                float3 lightDirection = _WorldSpaceLightPos0.xyz;
+                float3 lightPosition = position + lightDirection * 100;
+                float3 surfaceNormal = GetNormal(position);
+
+                float diffuseLighting = saturate(dot(surfaceNormal, lightDirection));
+
+                // Start not from the point, but a little bit above it in the normal direction, otherwise RayMarching will exit imminently
+                // and everything will be in the shadows.
+                float distanceToLight = RayMarch(position + surfaceNormal * SURF_DIST * 2, lightDirection);
+                if (distanceToLight < length(lightPosition - position))
+                {
+                    //In shadow.
+                    diffuseLighting *= 0.1;
+                }
+
+                return diffuseLighting;
+            }
+
             fixed4 frag(v2f i) : SV_Target
             {
-                float4 color = 0;
-
                 float distance = RayMarch(_WorldSpaceCameraPos, normalize(i.ray));
 
-                if (distance < MAX_DIST)
-                {
-                    color.r = 1;
-                }
-                return color;
+                float3 intersectionPoint = _WorldSpaceCameraPos + normalize(i.ray) * distance;
+
+                float diffuse = GetLight(intersectionPoint);
+
+                return float4(diffuse.rrr, 1);
             }
             ENDCG
         }
