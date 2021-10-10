@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 namespace StoryProgramming
 {
     /// <summary>
@@ -15,10 +13,7 @@ namespace StoryProgramming
         [SerializeField, Range(0.01f, 5)]
         float _animationSpeed = 1;
 
-        static MaterialPropertyBlock _mpb;
-
-
-        Renderer _renderer;
+        Material _material;
         int _positionTexId;
         int _positionTexBId;
         int _rotattionTexId;
@@ -55,7 +50,7 @@ namespace StoryProgramming
 
         void Awake()
         {
-            _renderer = GetComponent<Renderer>();
+            _material = GetComponent<Renderer>().material;
             _positionTexId = Shader.PropertyToID("_PositionsTex");
             _positionTexBId = Shader.PropertyToID("_PositionsTexB");
             _rotattionTexId = Shader.PropertyToID("_RotationsTex");
@@ -84,30 +79,21 @@ namespace StoryProgramming
 
         void SendDataToRenderer()
         {
-            //TODO set only changed data to MPB
-            if (_mpb == null)
-            {
-                _mpb = new MaterialPropertyBlock();
-            }
-            _renderer.GetPropertyBlock(_mpb);
-
-            _mpb.SetTexture(_positionTexId, _vatAnimation.PositionsTex);
-            _mpb.SetTexture(_rotattionTexId, _vatAnimation.RotationsTex);
+            _material.SetTexture(_positionTexId, _vatAnimation.PositionsTex);
+            _material.SetTexture(_rotattionTexId, _vatAnimation.RotationsTex);
             if (_vatAnimation.HighPrecisionPositionMode)
             {
-                _mpb.SetTexture(_positionTexBId, _vatAnimation.PositionsTexB);
+                _material.SetTexture(_positionTexBId, _vatAnimation.PositionsTexB);
             }
-            _mpb.SetInt(_highPrecisionMode, (_vatAnimation.HighPrecisionPositionMode) ? 1 : 0);
-            _mpb.SetInt(_partsIdsInUV3Id, (_vatAnimation.PartsIdsInUV3) ? 1 : 0);
+            _material.SetInt(_highPrecisionMode, (_vatAnimation.HighPrecisionPositionMode) ? 1 : 0);
+            _material.SetInt(_partsIdsInUV3Id, (_vatAnimation.PartsIdsInUV3) ? 1 : 0);
 
-            _mpb.SetFloat(_stateId, _state);
-            _mpb.SetInt(_partsCountId, _vatAnimation.PartsCount);
-            _mpb.SetVector(_boundsCenterId, _vatAnimation.BoundsCenter);
-            _mpb.SetVector(_boundsExtentsId, _vatAnimation.BoundsExtents);
-            _mpb.SetVector(_startBoundsCenterId, _vatAnimation.StartBoundsCenter);
-            _mpb.SetVector(_startBoundsExtentsId, _vatAnimation.StartBoundsExtents);
-
-            _renderer.SetPropertyBlock(_mpb);
+            _material.SetFloat(_stateId, _state);
+            _material.SetInt(_partsCountId, _vatAnimation.PartsCount);
+            _material.SetVector(_boundsCenterId, _vatAnimation.BoundsCenter);
+            _material.SetVector(_boundsExtentsId, _vatAnimation.BoundsExtents);
+            _material.SetVector(_startBoundsCenterId, _vatAnimation.StartBoundsCenter);
+            _material.SetVector(_startBoundsExtentsId, _vatAnimation.StartBoundsExtents);
         }
 
         void UpdateAnimation()
